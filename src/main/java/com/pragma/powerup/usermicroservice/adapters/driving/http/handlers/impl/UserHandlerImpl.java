@@ -14,7 +14,7 @@ public class UserHandlerImpl implements IUserHandler {
     private final IUserRequestMapper personRequestMapper;
 
     @Override
-    public void saveUser(UserRequestDto userRequestDto) {
-        personServicePort.saveUser(personRequestMapper.toUser(userRequestDto));
+    public void saveOwner(UserRequestDto userRequestDto) {
+        personServicePort.saveOwner(personRequestMapper.toUser(userRequestDto));
     }
 }

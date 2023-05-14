@@ -1,4 +1,4 @@
-package com.pragma.powerup.usermicroservice.adapters.validation;
+package com.pragma.powerup.usermicroservice.adapters.driving.http.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

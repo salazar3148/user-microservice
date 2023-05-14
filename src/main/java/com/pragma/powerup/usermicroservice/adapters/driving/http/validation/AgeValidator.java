@@ -1,4 +1,4 @@
-package com.pragma.powerup.usermicroservice.adapters.validation;
+package com.pragma.powerup.usermicroservice.adapters.driving.http.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -7,9 +7,6 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class AgeValidator implements ConstraintValidator<LegalAge, LocalDate> {
-    @Override
-    public void initialize(LegalAge constraintAnnotation) {
-    }
 
     @Override
     public boolean isValid(LocalDate fechaNacimiento, ConstraintValidatorContext context) {
