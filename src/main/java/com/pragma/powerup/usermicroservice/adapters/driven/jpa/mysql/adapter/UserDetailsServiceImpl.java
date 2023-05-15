@@ -23,12 +23,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String documentID) throws UsernameNotFoundException {
         UserEntity usuario = userRepository.findByDniNumber(documentID).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        if (usuario.getRole() == null) {
+        if (usuario.getId_role() == null) {
             throw new UsernameNotFoundException("User not found with documentID: " + documentID);
         }
 
         List<RoleEntity> roles = new ArrayList<>();
-        roles.add(usuario.getRole());
+        roles.add(usuario.getId_role());
 
         return PrincipalUser.build(usuario, roles);
     }
