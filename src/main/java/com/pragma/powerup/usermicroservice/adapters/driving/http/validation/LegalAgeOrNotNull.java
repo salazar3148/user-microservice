@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = AgeValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LegalAge {
+public @interface LegalAgeOrNotNull {
     String message() default "underage";
     Class<?>[] groups() default {};
     Class<? extends Payload> [] payload() default {};
