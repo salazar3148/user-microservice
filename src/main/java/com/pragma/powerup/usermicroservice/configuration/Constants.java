@@ -9,6 +9,9 @@ public class Constants {
     public static final Long CLIENT_ROLE_ID = 1L;
     public static final Long EMPLOYEE_ROLE_ID = 2L;
     public static final Long PROVIDER_ROLE_ID = 3L;
+
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_OWNER = "ROLE_OWNER";
     public static final int MAX_PAGE_SIZE = 2;
     public static final String RESPONSE_MESSAGE_KEY = "message";
     public static final String PERSON_CREATED_MESSAGE = "Person created successfully";
@@ -19,6 +22,7 @@ public class Constants {
     public static final String NO_DATA_FOUND_MESSAGE = "No data found for the requested petition";
     public static final String PERSON_ALREADY_EXISTS_MESSAGE = "A person already exists with the DNI number provided";
     public static final String MAIL_ALREADY_EXISTS_MESSAGE = "A person with that mail already exists";
+    public static final String USER_NO_ACCESS_MESSAGE = "User does not have permission to access";
     public static final String PERSON_NOT_FOUND_MESSAGE = "No person found with the id provided";
     public static final String ROLE_NOT_FOUND_MESSAGE = "No role found with the id provided";
     public static final String ROLE_NOT_ALLOWED_MESSAGE = "No permission granted to create users with this role";

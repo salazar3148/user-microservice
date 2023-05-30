@@ -1,5 +1,6 @@
 package com.pragma.powerup.usermicroservice;
 
+import com.pragma.powerup.usermicroservice.domain.api.IRoleVerifier;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.usecase.UserUseCase;
@@ -26,11 +27,15 @@ public class UserUseCaseTest {
     @Autowired
     UserUseCase userUseCase;
 
+    @InjectMocks
+    @Autowired
+    IRoleVerifier roleVerifier;
+
     User user;
 
     @BeforeEach
     public void setUp() {
-        userUseCase = new UserUseCase(usuarioPersistencePort);
+        userUseCase = new UserUseCase(usuarioPersistencePort, roleVerifier);
         user = new User();
         user.setName("name");
         user.setSurname("surname");

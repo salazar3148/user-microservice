@@ -7,8 +7,11 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -16,6 +19,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ContextConfiguration(classes = UserRequestDto.class)
+@SpringBootTest
 public class UserRequestDtoTest {
 
     private Validator validator;
@@ -27,6 +32,7 @@ public class UserRequestDtoTest {
     @ParameterizedTest(name = "function must return one violation of Jakarta validation")
     @ValueSource(strings = {"", " ", "\t", "\n"})
     @DisplayName("Test name cannot be blank")
+    @Test
     void testNameCannotBeBlank(String stringEmpty) {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setName(stringEmpty);

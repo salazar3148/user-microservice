@@ -35,5 +35,5 @@ public class UserEntity {
     private String password;
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_role")
-    private RoleEntity id_role;
+    private RoleEntity role;
 }
