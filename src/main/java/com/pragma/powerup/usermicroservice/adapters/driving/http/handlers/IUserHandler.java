@@ -5,5 +5,7 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.Us
 
 public interface IUserHandler {
     void saveOwner(UserRequestDto personRequestDto);
-    Boolean isOwner(String token);
+    UserResponseDto getUser(String token);
+
+    UserResponseDto getUserById(Long id);
 }

@@ -1,6 +1,6 @@
 package com.pragma.powerup.usermicroservice;
 
-import com.pragma.powerup.usermicroservice.domain.api.IRoleVerifier;
+import com.pragma.powerup.usermicroservice.domain.api.MailExtractor;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.usecase.UserUseCase;
@@ -29,7 +29,7 @@ public class UserUseCaseTest {
 
     @InjectMocks
     @Autowired
-    IRoleVerifier roleVerifier;
+    MailExtractor roleVerifier;
 
     User user;
 

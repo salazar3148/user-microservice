@@ -6,9 +6,9 @@ import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.mappers.IRo
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.mappers.IUserEntityMapper;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IRoleRepository;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.jwt.JwtRoleVerifier;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.jwt.JwtMailExtractor;
 import com.pragma.powerup.usermicroservice.domain.api.IRoleServicePort;
-import com.pragma.powerup.usermicroservice.domain.api.IRoleVerifier;
+import com.pragma.powerup.usermicroservice.domain.api.MailExtractor;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
@@ -42,8 +42,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IRoleVerifier roleVerifier(){
-        return new JwtRoleVerifier();
+    public MailExtractor roleVerifier(){
+        return new JwtMailExtractor();
     }
     @Bean
     public IUserServicePort userServicePort() {

@@ -1,19 +1,16 @@
 package com.pragma.powerup.usermicroservice.domain.usecase;
-
-import com.pragma.powerup.usermicroservice.domain.api.IRoleVerifier;
+import com.pragma.powerup.usermicroservice.domain.api.MailExtractor;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
-import com.pragma.powerup.usermicroservice.domain.exceptions.UnauthorizedException;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
-import org.springframework.security.core.AuthenticationException;
 
 public class UserUseCase implements IUserServicePort {
     private final IUserPersistencePort userPersistencePort;
-    private final IRoleVerifier roleVerifier;
+    private final MailExtractor mailExtractor;
 
-    public UserUseCase(IUserPersistencePort personPersistencePort, IRoleVerifier roleVerifier) {
+    public UserUseCase(IUserPersistencePort personPersistencePort, MailExtractor mailExtractor) {
         this.userPersistencePort = personPersistencePort;
-        this.roleVerifier = roleVerifier;
+        this.mailExtractor = mailExtractor;
     }
 
     @Override
@@ -22,13 +19,12 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public Boolean isOwner(String token) {
+    public User getUser(String token) {
+        return userPersistencePort.getUser(mailExtractor.extractEmail(token));
+    }
 
-
-        if(!roleVerifier.isOwner(token)){
-            throw new UnauthorizedException();
-        }
-
-        return true;
+    @Override
+    public User getUserById(Long id) {
+        return userPersistencePort.getUserById(id);
     }
 }

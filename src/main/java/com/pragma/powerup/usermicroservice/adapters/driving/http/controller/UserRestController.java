@@ -43,9 +43,15 @@ public class UserRestController {
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PERSON_CREATED_MESSAGE));
     }
 
-    @GetMapping("/owner/verify")
-    public ResponseEntity<Boolean> isOwner(@RequestHeader("Authorization") String token) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userHandler.isOwner(token));
+                .body(userHandler.getUserById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<UserResponseDto> getUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userHandler.getUser(token));
     }
 }

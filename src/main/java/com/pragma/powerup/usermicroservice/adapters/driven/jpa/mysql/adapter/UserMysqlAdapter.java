@@ -1,18 +1,16 @@
 package com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.adapter;
-
-import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.UserEntity;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.MailAlreadyExistsException;
-import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.PersonAlreadyExistsException;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.UserNotFoundException;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.mappers.IRoleEntityMapper;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.mappers.IUserEntityMapper;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IRoleRepository;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
-import com.pragma.powerup.usermicroservice.configuration.Constants;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.pragma.powerup.usermicroservice.configuration.Constants.OWNER_ROLE_ID;
 
 @RequiredArgsConstructor
 public class UserMysqlAdapter implements IUserPersistencePort {
@@ -32,9 +30,19 @@ public class UserMysqlAdapter implements IUserPersistencePort {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(
                 roleEntityMapper.toRole(
-                        roleRepository.findById(Constants.PROVIDER_ROLE_ID).orElseThrow(RuntimeException::new)
+                        roleRepository.findById(OWNER_ROLE_ID).orElseThrow(UserNotFoundException::new)
                 )
         );
         userRepository.save(userEntityMapper.toEntity(user));
+    }
+
+    @Override
+    public User getUser(String mail) {
+        return userEntityMapper.toUser(userRepository.findByMail(mail).orElseThrow(UserNotFoundException::new));
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userEntityMapper.toUser(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
     }
 }
