@@ -24,7 +24,7 @@ public class UserUseCase implements IUserServicePort {
     public void saveOwner(String token, User user) {
         User adminUser = getUser(token);
 
-        if(adminUser.getRole().getId().equals(ADMIN_ROLE_ID)){
+        if(!adminUser.getRole().getId().equals(ADMIN_ROLE_ID)){
             throw new UnauthorizedException();
         }
 
@@ -32,7 +32,16 @@ public class UserUseCase implements IUserServicePort {
              rolePersistencePort.getRole(OWNER_ROLE_ID)
         );
 
-        userPersistencePort.saveOwner(user);
+        userPersistencePort.saveUser(user);
+    }
+
+    @Override
+    public void saveEmployee(String token, User user) {
+        User ownerUser = getUser(token);
+
+        if(!ownerUser.getRole().getId().equals(OWNER_ROLE_ID)){
+            throw new UnauthorizedException();
+        }
     }
 
     @Override

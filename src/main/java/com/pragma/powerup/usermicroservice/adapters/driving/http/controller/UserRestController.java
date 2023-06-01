@@ -40,7 +40,20 @@ public class UserRestController {
     public ResponseEntity<Map<String, String>> saveOwner(@RequestHeader("Authorization") String token, @Valid @RequestBody UserRequestDto userRequestDto) {
         userHandler.saveOwner(token, userRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PERSON_CREATED_MESSAGE));
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
+    }
+
+    @Operation(summary = "Add a new employee",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "owner created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "owner already exists",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PostMapping("employee")
+    public ResponseEntity<Map<String, String>> saveEmployee(@RequestHeader("Authorization") String token, @Valid @RequestBody UserRequestDto userRequestDto) {
+        userHandler.saveOwner(token, userRequestDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }
 
     @GetMapping("/{id}")
@@ -54,6 +67,4 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userHandler.getUser(token));
     }
-
-
 }

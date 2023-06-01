@@ -22,6 +22,11 @@ public class UserHandlerImpl implements IUserHandler {
     }
 
     @Override
+    public void saveEmployee(String token, UserRequestDto userRequestDto) {
+        userServicePort.saveEmployee(token, userRequestMapper.toUser(userRequestDto));
+    }
+
+    @Override
     public UserResponseDto getUser(String token) {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);

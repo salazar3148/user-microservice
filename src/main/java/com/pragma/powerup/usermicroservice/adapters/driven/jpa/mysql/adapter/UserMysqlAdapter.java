@@ -19,7 +19,7 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void saveOwner(User user) {
+    public void saveUser(User user) {
 
         if (userRepository.existsByMail(user.getMail())){
             throw new MailAlreadyExistsException();
