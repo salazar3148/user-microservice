@@ -1,10 +1,12 @@
 package com.pragma.powerup.usermicroservice.domain.usecase;
 import com.pragma.powerup.usermicroservice.domain.api.MailExtractor;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.UnauthorizedException;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 
+import static com.pragma.powerup.usermicroservice.configuration.Constants.ADMIN_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.OWNER_ROLE_ID;
 
 public class UserUseCase implements IUserServicePort {
@@ -19,10 +21,17 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public void saveOwner(User user) {
+    public void saveOwner(String token, User user) {
+        User adminUser = getUser(token);
+
+        if(adminUser.getRole().getId().equals(ADMIN_ROLE_ID)){
+            throw new UnauthorizedException();
+        }
+
         user.setRole(
              rolePersistencePort.getRole(OWNER_ROLE_ID)
         );
+
         userPersistencePort.saveOwner(user);
     }
 

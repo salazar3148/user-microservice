@@ -37,8 +37,8 @@ public class UserRestController {
                     @ApiResponse(responseCode = "409", description = "owner already exists",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @PostMapping("owner")
-    public ResponseEntity<Map<String, String>> saveOwner(@Valid @RequestBody UserRequestDto userRequestDto) {
-        userHandler.saveOwner(userRequestDto);
+    public ResponseEntity<Map<String, String>> saveOwner(@RequestHeader("Authorization") String token, @Valid @RequestBody UserRequestDto userRequestDto) {
+        userHandler.saveOwner(token, userRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PERSON_CREATED_MESSAGE));
     }
@@ -54,4 +54,6 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userHandler.getUser(token));
     }
+
+
 }

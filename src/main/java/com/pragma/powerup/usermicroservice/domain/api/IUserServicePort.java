@@ -4,8 +4,7 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.Us
 import com.pragma.powerup.usermicroservice.domain.model.User;
 
 public interface IUserServicePort {
-    void saveOwner(User user);
+    void saveOwner(String token, User user);
     User getUser(String token);
-
     User getUserById(Long id);
 }
