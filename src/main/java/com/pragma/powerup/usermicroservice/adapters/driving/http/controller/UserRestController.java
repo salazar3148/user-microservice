@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,11 +48,24 @@ public class UserRestController {
             responses = {
                     @ApiResponse(responseCode = "201", description = "owner created",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
-                    @ApiResponse(responseCode = "409", description = "owner already exists",
+                    @ApiResponse(responseCode = "409", description = "employee already exists",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @PostMapping("employee")
     public ResponseEntity<Map<String, String>> saveEmployee(@RequestHeader("Authorization") String token, @Valid @RequestBody UserRequestDto userRequestDto) {
         userHandler.saveEmployee(token, userRequestDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
+    }
+
+    @Operation(summary = "Add a new Customer",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "owner created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "customer already exists",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PostMapping("/customer")
+    public ResponseEntity<Map<String, String>> saveCustomer(@Valid @RequestBody UserRequestDto userRequestDto) {
+        userHandler.saveCustomer(userRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }
