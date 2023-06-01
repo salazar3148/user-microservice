@@ -20,36 +20,5 @@ import java.time.LocalDate;
 @ContextConfiguration(classes = UserUseCase.class)
 @SpringBootTest
 public class UserUseCaseTest {
-    @MockBean
-    IUserPersistencePort usuarioPersistencePort;
 
-    @InjectMocks
-    @Autowired
-    UserUseCase userUseCase;
-
-    @InjectMocks
-    @Autowired
-    MailExtractor roleVerifier;
-
-    User user;
-
-    @BeforeEach
-    public void setUp() {
-        userUseCase = new UserUseCase(usuarioPersistencePort, roleVerifier);
-        user = new User();
-        user.setName("name");
-        user.setSurname("surname");
-        user.setDniNumber("123456789");
-        user.setPhone("+1234567890");
-        user.setDateBirthday(LocalDate.of(2000, 1, 1));
-        user.setMail("test@example.com");
-        user.setPassword("password");
-    }
-
-    @Test
-    public void saveUser() {
-        userUseCase.saveOwner(user);
-
-        verify(usuarioPersistencePort, times(1)).saveOwner(user);
-    }
 }

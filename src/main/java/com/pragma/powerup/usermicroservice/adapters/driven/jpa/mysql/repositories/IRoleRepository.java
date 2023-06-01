@@ -3,4 +3,8 @@ package com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositori
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IRoleRepository extends JpaRepository<RoleEntity, Long> {}
+import java.util.Optional;
+
+public interface IRoleRepository extends JpaRepository<RoleEntity, Long> {
+    Optional<RoleEntity> findById(Long id);
+}

@@ -38,7 +38,7 @@ public class BeanConfiguration {
     }
     @Bean
     public IUserPersistencePort userPersistencePort() {
-        return new UserMysqlAdapter(userRepository, userEntityMapper, roleEntityMapper, roleRepository, passwordEncoder);
+        return new UserMysqlAdapter(userRepository, userEntityMapper, passwordEncoder);
     }
 
     @Bean
@@ -47,6 +47,6 @@ public class BeanConfiguration {
     }
     @Bean
     public IUserServicePort userServicePort() {
-        return new UserUseCase(userPersistencePort(), roleVerifier());
+        return new UserUseCase(userPersistencePort(), rolePersistencePort(), roleVerifier());
     }
 }

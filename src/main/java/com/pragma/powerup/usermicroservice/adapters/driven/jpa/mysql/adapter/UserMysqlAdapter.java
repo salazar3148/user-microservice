@@ -16,8 +16,6 @@ import static com.pragma.powerup.usermicroservice.configuration.Constants.OWNER_
 public class UserMysqlAdapter implements IUserPersistencePort {
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
-    private final IRoleEntityMapper roleEntityMapper;
-    private final IRoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -26,13 +24,8 @@ public class UserMysqlAdapter implements IUserPersistencePort {
         if (userRepository.existsByMail(user.getMail())){
             throw new MailAlreadyExistsException();
         }
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(
-                roleEntityMapper.toRole(
-                        roleRepository.findById(OWNER_ROLE_ID).orElseThrow(UserNotFoundException::new)
-                )
-        );
+
         userRepository.save(userEntityMapper.toEntity(user));
     }
 
