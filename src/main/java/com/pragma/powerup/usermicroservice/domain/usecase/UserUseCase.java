@@ -7,6 +7,7 @@ import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 
 import static com.pragma.powerup.usermicroservice.configuration.Constants.ADMIN_ROLE_ID;
+import static com.pragma.powerup.usermicroservice.configuration.Constants.EMPLOYEE_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.OWNER_ROLE_ID;
 
 public class UserUseCase implements IUserServicePort {
@@ -42,6 +43,12 @@ public class UserUseCase implements IUserServicePort {
         if(!ownerUser.getRole().getId().equals(OWNER_ROLE_ID)){
             throw new UnauthorizedException();
         }
+
+        user.setRole(
+                rolePersistencePort.getRole(EMPLOYEE_ROLE_ID)
+        );
+
+        userPersistencePort.saveUser(user);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class UserRestController {
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @PostMapping("employee")
     public ResponseEntity<Map<String, String>> saveEmployee(@RequestHeader("Authorization") String token, @Valid @RequestBody UserRequestDto userRequestDto) {
-        userHandler.saveOwner(token, userRequestDto);
+        userHandler.saveEmployee(token, userRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }

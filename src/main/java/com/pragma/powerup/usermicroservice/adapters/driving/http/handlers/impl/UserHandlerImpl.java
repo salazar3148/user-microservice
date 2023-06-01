@@ -28,10 +28,6 @@ public class UserHandlerImpl implements IUserHandler {
 
     @Override
     public UserResponseDto getUser(String token) {
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
-
         return userResponseMapper.userToUserResponseDto(userServicePort.getUser(token));
     }
 

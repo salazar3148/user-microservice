@@ -11,6 +11,10 @@ public class JwtMailExtractor implements MailExtractor {
 
     @Override
     public String extractEmail(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
         return Jwts.parser()
                 .setSigningKey(secret.getBytes())
                 .parseClaimsJws(token)
