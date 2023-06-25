@@ -1,23 +1,15 @@
 package com.pragma.powerup.usermicroservice.configuration;
 
 public class Constants {
-
     private Constants() {
         throw new IllegalStateException("Utility class");
     }
-
     public static final Long ADMIN_ROLE_ID = 1L;
     public static final Long CUSTOMER_ROLE_ID = 2L;
     public static final Long OWNER_ROLE_ID = 3L;
     public static final Long EMPLOYEE_ROLE_ID = 4L;
-
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_OWNER = "ROLE_OWNER";
-    public static final int MAX_PAGE_SIZE = 2;
-
     public static final String RESPONSE_MESSAGE_KEY = "message";
     public static final String USER_CREATED_MESSAGE = "User created successfully";
-    public static final String USER_DELETED_MESSAGE = "User deleted successfully";
     public static final String RESPONSE_ERROR_MESSAGE_KEY = "error";
     public static final String WRONG_CREDENTIALS_MESSAGE = "Wrong credentials or role not allowed";
     public static final String NO_DATA_FOUND_MESSAGE = "No data found for the requested petition";
