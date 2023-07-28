@@ -54,6 +54,10 @@ jacocoTestReport {
 	}
 }
 
+test {
+	finalizedBy(jacocoTestReport)
+}
+
 sonarqube {
 	properties {
 		property "sonar.projectKey", "sonarintegration111_plazoleta"
