@@ -1,0 +1,66 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: MyCIPipeline
+    source: salazar3148.user-microservice 
+    trigger:
+      branches:
+      - master
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Docker
+  displayName: 'Build and Push Docker Image'
+  jobs:  
+  - job: Docker
+    displayName: 'Docker'
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'specific'
+        project: 'CI-CD'
+        pipeline: 'salazar3148.user-microservice'
+        buildVersionToDownload: 'latestFromBranch'
+        branchName: 'refs/heads/main'
+        targetPath: '$(Pipeline.Workspace)'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'myDockerHubServiceConnection'
+        repository: 'salazar4817/plazoleta'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+        buildContext: '$(Pipeline.Workspace)'
+
+- stage: Deploy
+  displayName: 'Deploy to ECS'
+  jobs:  
+  - job: Deploy
+    displayName: 'Deploy'
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    steps:
+    - script: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+      displayName: 'Install AWS CLI'
+    - script: |
+        aws ecs register-task-definition --family my-task-family --cli-input-json file://path-to-my-task-definition.json
+      displayName: 'Update ECS Task Definition'
+      env:
+        AWS_ACCESS_KEY_ID: $(aws-access-key-id)
+        AWS_SECRET_ACCESS_KEY: $(aws-secret-access-key)
+        AWS_REGION: $(aws-region)
+    - script: |
+        aws ecs update-service --cluster plaza-cluster --service plaza-service --task-definition plaza-tasks
+      displayName: 'Update ECS Service'
+      env:
+        AWS_ACCESS_KEY_ID: $(aws-access-key-id)
+        AWS_SECRET_ACCESS_KEY: $(aws-secret-access-key)
+        AWS_REGION: $(aws-region)
