@@ -192,7 +192,7 @@ class UserUseCaseTest {
 
         //THEN
         verify(userPersistencePort).getUserById(userId);
-        assertEquals(expectedUser, new User());
+        assertEquals(expectedUser, actualUser);
     }
 
 
