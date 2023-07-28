@@ -5,29 +5,13 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
 - checkout: self
   fetchDepth: 0
-- task: SonarCloudPrepare@1
+- task: Gradle@3
   inputs:
-    SonarCloud: 'sonarcloud'
-    organization: 'sonarintegration111'
-    scannerMode: 'Other'
-- task: Gradle@2
-  inputs:
-    workingDirectory: ''
     gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean build sonar'
-
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
 
 - task: PublishBuildArtifacts@1
   inputs:
