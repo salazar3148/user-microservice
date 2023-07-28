@@ -3,6 +3,7 @@ package com.pragma.powerup.usermicroservice.configuration.security.jwt;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.AuthenticationException;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class JwtEntryPoint implements AuthenticationEntryPoint {
 
     @Autowired

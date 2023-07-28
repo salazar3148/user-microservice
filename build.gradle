@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.4'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id "jacoco"
+	id "org.sonarqube" version "4.3.0.3225"
 }
 
 group = 'com.ti.acelera'
@@ -19,6 +21,10 @@ repositories {
 }
 
 dependencies {
+	implementation 'software.amazon.awssdk:ssm:2.20.110'
+	implementation 'com.amazonaws:aws-java-sdk-cognitoidp:1.12.514'
+	implementation 'com.auth0:java-jwt:4.4.0'
+	implementation 'com.auth0:jwks-rsa:0.22.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-web:3.0.4'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
@@ -40,3 +46,21 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true)
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "sonarintegration111_plazoleta"
+		property "sonar.organization", "sonarintegration111"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.token", "687728c45a25bbcbc9b7d833f9fbd9b8239c2b73"
+		property "sonar.inclusions", "src/main/java/com/pragma/powerup/usermicroservice/domain/usecase/**/*"
+	}
+}
+

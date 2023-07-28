@@ -1,10 +1,11 @@
 package com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.adapter;
 
+import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.NotFoundException;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.UserEntity;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.PrincipalUser;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.RoleEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,22 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity usuario = userRepository.findByMail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        UserEntity user = userRepository.findByMail(email).orElseThrow(() -> new NotFoundException("User not found with the email provided"));
 
-        if (usuario.getRole() == null) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
+        if (user.getRole() == null) {
+            throw new NotFoundException("The user does not have an assigned role " + email);
         }
 
         List<RoleEntity> roleEntityList = new ArrayList<>();
-        roleEntityList.add(usuario.getRole());
+        roleEntityList.add(user.getRole());
 
-        return PrincipalUser.build(usuario, roleEntityList);
+        return PrincipalUser.build(user, roleEntityList);
     }
 }

@@ -11,7 +11,6 @@ public class User {
     private LocalDate dateBirthday;
     private String mail;
     private String password;
-
     private Role role;
 
     public User() {

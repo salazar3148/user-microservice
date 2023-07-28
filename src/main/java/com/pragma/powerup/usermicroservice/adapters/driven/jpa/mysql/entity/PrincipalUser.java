@@ -3,14 +3,12 @@ package com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrincipalUser implements UserDetails {
-    private String nombre;
+    private String  nombre;
     private String nombreUsuario;
     private String email;
     private String password;

@@ -18,6 +18,4 @@ public class RoleUseCase implements IRoleServicePort {
     public List<Role> getAllRoles() {
         return rolePersistencePort.getAllRoles();
     }
-
-
 }

@@ -9,4 +9,5 @@ public class UserResponseDto {
     private Long id;
     private Long idRole;
     private String phone;
+    private String mail;
 }

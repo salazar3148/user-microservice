@@ -1,8 +1,10 @@
 package com.pragma.powerup.usermicroservice.domain.usecase;
 import com.pragma.powerup.usermicroservice.domain.api.MailExtractor;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.ForbiddenException;
 import com.pragma.powerup.usermicroservice.domain.exceptions.UnauthorizedException;
 import com.pragma.powerup.usermicroservice.domain.model.User;
+import com.pragma.powerup.usermicroservice.domain.spi.ICognitoServicePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 
@@ -10,15 +12,18 @@ import static com.pragma.powerup.usermicroservice.configuration.Constants.ADMIN_
 import static com.pragma.powerup.usermicroservice.configuration.Constants.CUSTOMER_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.EMPLOYEE_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.OWNER_ROLE_ID;
+import static com.pragma.powerup.usermicroservice.configuration.Constants.ROLE_NOT_ALLOWED_MESSAGE;
 
 public class UserUseCase implements IUserServicePort {
     private final IUserPersistencePort userPersistencePort;
     private final IRolePersistencePort rolePersistencePort;
+    private final ICognitoServicePort cognitoServicePort;
     private final MailExtractor mailExtractor;
 
-    public UserUseCase(IUserPersistencePort personPersistencePort, IRolePersistencePort rolePersistencePort, MailExtractor mailExtractor) {
-        this.userPersistencePort = personPersistencePort;
+    public UserUseCase(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort, ICognitoServicePort cognitoServicePort, MailExtractor mailExtractor) {
+        this.userPersistencePort = userPersistencePort;
         this.rolePersistencePort = rolePersistencePort;
+        this.cognitoServicePort = cognitoServicePort;
         this.mailExtractor = mailExtractor;
     }
 
@@ -27,7 +32,7 @@ public class UserUseCase implements IUserServicePort {
         User adminUser = getUser(token);
 
         if(!adminUser.getRole().getId().equals(ADMIN_ROLE_ID)){
-            throw new UnauthorizedException();
+            throw new ForbiddenException(ROLE_NOT_ALLOWED_MESSAGE);
         }
 
         user.setRole(
@@ -35,6 +40,7 @@ public class UserUseCase implements IUserServicePort {
         );
 
         userPersistencePort.saveUser(user);
+        cognitoServicePort.signUpUser(user);
     }
 
     @Override
@@ -42,7 +48,7 @@ public class UserUseCase implements IUserServicePort {
         User ownerUser = getUser(token);
 
         if(!ownerUser.getRole().getId().equals(OWNER_ROLE_ID)){
-            throw new UnauthorizedException();
+            throw new UnauthorizedException(ROLE_NOT_ALLOWED_MESSAGE);
         }
 
         user.setRole(
@@ -50,6 +56,7 @@ public class UserUseCase implements IUserServicePort {
         );
 
         userPersistencePort.saveUser(user);
+        cognitoServicePort.signUpUser(user);
     }
 
     @Override
@@ -58,6 +65,7 @@ public class UserUseCase implements IUserServicePort {
                 rolePersistencePort.getRole(CUSTOMER_ROLE_ID)
         );
 
+        cognitoServicePort.signUpUser(user);
         userPersistencePort.saveUser(user);
     }
 
@@ -70,4 +78,5 @@ public class UserUseCase implements IUserServicePort {
     public User getUserById(Long id) {
         return userPersistencePort.getUserById(id);
     }
+
 }

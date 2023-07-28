@@ -2,19 +2,24 @@ server:
   port: 8090
 
 spring:
-  datasource:
-    url: jdbc:mysql://localhost/powerup
-    username: root
-    password: sasa
   jpa:
     hibernate:
       ddl-auto: update
-jwt:
-  secret: ${KEYSECRET_SECURITY:ONtZp7qcsoW9eHYjFZKH$0JqjIV1Onu#eQFO0ORWXcnXVmcn0b0815cUA%%m9#it}
-  expiration: ${EXPIRE_DAYS_SECURITY:3600000}
+
+aws:
+  cognito:
+    clientId: 17lthotiteoe0svo0qlhmbdm2s
+    userPoolId: us-east-1_KUn4x9Gao
+    region: us-east-1
+    issuer: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KUn4x9Gao
+    connectionTimeout: 2000
+    readTimeout: 2000
+    identityPoolUrl: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KUn4x9Gao
+    jwk: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KUn4x9Gao/.well-known/jwks.json
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+

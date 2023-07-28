@@ -1,0 +1,12 @@
+FROM amazoncorretto:17.0.8
+
+WORKDIR /app
+
+COPY ./build/libs/usermicroservice-0.0.1-SNAPSHOT.jar .
+
+EXPOSE 8090
+
+ENV AWS_ACCESS_KEY_ID=AKIASOCOHF37BA6G3XNM
+ENV AWS_SECRET_ACCESS_KEY=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
+
+ENTRYPOINT ["java", "-jar", "usermicroservice-0.0.1-SNAPSHOT.jar"]
