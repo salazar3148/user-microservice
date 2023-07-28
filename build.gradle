@@ -50,7 +50,7 @@ tasks.named('test') {
 
 jacocoTestReport {
 	reports {
-		xml.required.set(true)
+		xml.required = true
 	}
 }
 
@@ -58,7 +58,7 @@ test {
 	finalizedBy(jacocoTestReport)
 }
 
-sonarqube {
+sonar {
 	properties {
 		property "sonar.projectKey", "sonarintegration111_plazoleta"
 		property "sonar.organization", "sonarintegration111"
