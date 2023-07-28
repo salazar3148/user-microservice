@@ -11,14 +11,12 @@ steps:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '17.0.8'
+    jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
-- task: Gradle@2
-  inputs:
-    tasks: 'test'
+    tasks: 'clean build sonar'
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonarcloud'
