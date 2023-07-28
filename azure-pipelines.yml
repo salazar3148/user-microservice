@@ -5,6 +5,9 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
+- checkout: self
+  fetchDepth: 0
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonarcloud'
@@ -21,7 +24,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'clean build sonar'
-- task: SonarCloudAnalyze@1
+
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
